@@ -1,3 +1,4 @@
+const cors=require("cors");
 const path = require("path");
 const express = require("express");
 const dotenv = require("dotenv");
@@ -14,7 +15,7 @@ connectDB(); //mongodb connection
 const app = express();
 
 app.use(express.json()); // to accept json data from req body sent from fe 
-
+app.use(cors());
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
@@ -31,6 +32,7 @@ if (process.env.NODE_ENV === "production") {
   );
 } else {
   app.get("/", (req, res) => {
+    res.setHeader("Access-Control-Allow-Credentials","true");
     res.send("API is running..");
   });
 }
